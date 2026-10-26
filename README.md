@@ -18,17 +18,21 @@ versions; this port does not need CounterStrikeSharp or Cruze03's Clientprefs.
 2. Build locally or download the artifact from a successful
    [GitHub Actions run](https://github.com/ShookEagle/s2s-hide/actions). Extract
    `s2s-hide-1.3.3.zip` into `game/csgo/` on your server. It
-   installs `addons/s2script/plugins/s2s-hide.s2sp`, English/Russian translations,
+   installs `addons/s2script/plugins/_edgegamers_s2s-hide.s2sp`, English/Russian translations,
    and documentation/source under `addons/s2script/docs/s2s-hide/`.
 3. s2script loads the plugin automatically. Check `sm plugins list` and server
    logs. On first load, it creates `addons/s2script/configs/HidePlayers.json`.
 
-For manual installation, copy `dist/s2s-hide.s2sp` to
+For manual installation, copy `dist/_edgegamers_s2s-hide.s2sp` to
 `addons/s2script/plugins/` and the contents of `translations/` to
 `addons/s2script/translations/`. English feedback is embedded as a fallback.
 Do not overwrite an existing config when upgrading.
 
-After the first registry publication, `s2s install s2s-hide` installs the plugin
+If upgrading from the earlier unscoped build, unload `s2s-hide` and remove its
+old `addons/s2script/plugins/s2s-hide.s2sp` before installing the scoped build,
+so both copies do not run together. The config and clientprefs cookie are unchanged.
+
+After the first registry publication, `s2s install @edgegamers/s2s-hide` installs the plugin
 from the registry. The registry installs the `.s2sp`, which includes English
 fallback messages. For Russian and editable phrase files, also copy
 `translations/` into `addons/s2script/translations/`, or use the full install ZIP.
@@ -61,7 +65,7 @@ unprefixed chat alias. s2script handles `sm_` chat aliases itself.
 `css_hide_reload` and `hide_reload` are reserved for admins.
 
 Mode changes apply after `css_hide_reload`. As upstream does, commands register
-at startup: after changing `cmds`, use `sm plugins reload s2s-hide`. Invalid
+at startup: after changing `cmds`, use `sm plugins reload @edgegamers/s2s-hide`. Invalid
 config reloads report an error and keep the last working settings. Phrase-file
 changes also require a plugin reload.
 
@@ -103,7 +107,7 @@ npm run typecheck
 npm run package
 ```
 
-`npm run build` produces `dist/s2s-hide.s2sp` using the official `s2s` compiler.
+`npm run build` produces `dist/_edgegamers_s2s-hide.s2sp` using the official `s2s` compiler.
 `npm run package` also creates the install ZIP with translations, license, and
 corresponding source. Dependencies are locked in `package-lock.json`.
 The registry's source tarball follows npm packing rules and excludes lockfiles;
@@ -127,7 +131,7 @@ Before putting it on a populated server, check with two clients:
 
 ## Automatic registry publishing
 
-Create a deploy token with **publish access** at
+Create a deploy token with **publish access to the `edgegamers` organization** at
 [s2script → Deploy tokens](https://www.s2script.com/account/tokens). In this
 repository, open **Settings → Secrets and variables → Actions → Secrets → New
 repository secret** and add:
@@ -137,8 +141,8 @@ repository secret** and add:
 | `S2SCRIPT_TOKEN` | Your s2script deploy token (`s2s_…`) |
 
 Use a repository **secret**, not a plain Actions variable. No other custom
-secret or variable is required. The token's account must own `s2s-hide`, or
-claim that unscoped name on its first publication. Do not paste the token into
+secret or variable is required. The package publishes as **`@edgegamers/s2s-hide`**;
+the token must be authorized for that organization scope. Do not paste the token into
 source, issue comments, or chat.
 
 The [publishing workflow](.github/workflows/publish.yml) tests, typechecks,

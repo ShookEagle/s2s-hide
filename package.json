@@ -1,5 +1,5 @@
 {
-  "name": "s2s-hide",
+  "name": "@edgegamers/s2s-hide",
   "version": "1.3.3",
   "description": "An s2script port of edgegamers/CS2-HidePlayers using native clientprefs cookies.",
   "license": "GPL-3.0-only",

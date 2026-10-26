@@ -4,7 +4,9 @@ import { fileURLToPath } from 'node:url';
 import { zipSync } from 'fflate';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const { version } = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+const { name, version } = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+// Match the SDK's output filename for scoped package IDs.
+const pluginFile = `${name.replace(/[^a-zA-Z0-9._-]/g, '_')}.s2sp`;
 const archive = join(root, 'dist', `s2s-hide-${version}.zip`);
 const files = {};
 function addFile(source, destination) {
@@ -20,7 +22,7 @@ function addDirectory(source, destination) {
 
 const addon = 'addons/s2script';
 const docs = `${addon}/docs/s2s-hide`;
-addFile(join(root, 'dist/s2s-hide.s2sp'), `${addon}/plugins/s2s-hide.s2sp`);
+addFile(join(root, 'dist', pluginFile), `${addon}/plugins/${pluginFile}`);
 addDirectory(join(root, 'translations'), `${addon}/translations`);
 for (const name of ['README.md', 'LICENSE', 'NOTICE']) addFile(join(root, name), `${docs}/${name}`);
 // Corresponding source accompanies the binary, including its build instructions.

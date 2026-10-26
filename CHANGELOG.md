@@ -8,6 +8,8 @@
   using the `S2SCRIPT_TOKEN` GitHub Actions secret.
 - Add registry source packaging and repository metadata. Gameplay and clientprefs
   behavior are unchanged.
+- Publish as `@edgegamers/s2s-hide` for the organization-scoped deploy token, and
+  package the SDK's scoped artifact filename in the install ZIP.
 
 ## 1.3.2-s2s.1 — 2026-10-11
 
